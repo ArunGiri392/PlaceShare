@@ -1,9 +1,7 @@
+import React, { useRef, useEffect } from "react";
+import "./Map.css";
 
-
-import React, { useRef, useEffect } from 'react';
-import './Map.css';
-
-const Map = props => {
+const Map = (props) => {
   const mapRef = useRef();
 
   const { center, zoom } = props;
@@ -15,16 +13,16 @@ const Map = props => {
         target: mapRef.current,
         layers: [
           new window.ol.layer.Tile({
-            source: new window.ol.source.OSM()
-          })
+            source: new window.ol.source.OSM(),
+          }),
         ],
         view: new window.ol.View({
           center: window.ol.proj.fromLonLat([center.lng, center.lat]),
-          zoom: zoom
-        })
+          zoom: zoom,
+        }),
       });
     } else {
-      console.error('OpenLayers library is not loaded.');
+      console.error("OpenLayers library is not loaded.");
     }
   }, [center, zoom]);
 
@@ -38,4 +36,3 @@ const Map = props => {
 };
 
 export default Map;
-
