@@ -10,7 +10,17 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use("/api/places", placesRoutes); 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-with, Content-Type, Accept, Authorization"
+  );
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+  next();
+});
+
+app.use("/api/places", placesRoutes);
 app.use("/api/users", usersRoutes);
 
 //handling all requests that comes after routes.
@@ -29,7 +39,9 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-  .connect('mongodb+srv://arungiri:AGa58577@cluster0.kigh3hu.mongodb.net/places?retryWrites=true&w=majority&appName=Cluster0')
+  .connect(
+    "mongodb+srv://arungiri:AGa58577@cluster0.kigh3hu.mongodb.net/mern?retryWrites=true&w=majority&appName=Cluster0"
+  )
   .then(() => {
     app.listen(5000);
   })
